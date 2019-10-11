@@ -1,0 +1,364 @@
+/* Name - Raj Kumar
+ * Class - Comp2140 Section MWF
+ * 
+ */
+public class MainClass
+{
+   public static int BREAKPOINT = 25;
+    public static void main(String[] args){
+       
+    testing();
+    /* to check medianOfThreeFunction
+     int[] b = {1,2,2};
+    medianOfThree(b,0,b.length);
+    */
+   /*output(a);
+    quickSort(a);
+    output(a);
+    */
+   /*output(a);
+    hybridQuickSort(a);
+    output(a);
+    */
+    //System.out.println(partition(a,0,a.length));
+    //insertionSort(a);
+    //System.out.println(findMin(a,1, 3));
+    /*fillArray(a);
+    if(isSorted(a)==false)
+        System.out.println("unSorted");
+    else
+        System.out.println("Sorted");
+        */
+    //System.out.println("UNSorted");
+    //output(a);
+    //System.out.println("Sorted");
+    //selectionSort(a);
+    //isSorted(a);
+    
+    /*if(isSorted(a)==false)
+        System.out.println("unSorted");
+    else
+        System.out.println("Sorted");
+        */
+    //mergeSort(a);
+    //output(a);
+    }
+    
+//=============================================================================================================================================    
+// 1.A   
+    private static void insertionSort( int[] array, int start, int end){
+    output(array); // just for reference 
+       final int base = start; //
+       for(int i= start+1; i< end; i++){
+           int key = array[i]; // storing the first element in the key variable
+           int j = i-1; // storing the previous index in int j variable 
+           while(j>=base && array[j]>key){ // checking if the index j is positive and the key is smaller than current positoin
+               array[j+1] = array[j]; // moving the a[j] in the next index
+               j--; // decrementing j
+            }// while
+           array[j+1] = key; // after the end of while loop storing the key at j+1 index
+    }//for
+    //output(array);
+   }// insertion sort
+   
+//=============================================================================================================================================    
+      
+   public static void insertionSort(int [] array){
+       
+       insertionSort(array, 0, array.length);
+       
+    }
+
+//=============================================================================================================================================    
+        
+   public static void output(int[] a){  
+   String str = "(";  
+   for(int i=0;i<a.length;i++){
+         str += a[i]+","; 
+    }
+   System.out.println(str+ ")");
+}
+
+//=============================================================================================================================================    
+// 2.A
+
+  public static int findMin(int[] array, int start, int end){
+      int min = start ; // assigning the first element location to min
+      for(int i= start; i< end; i++){ // iterating through the loop
+          if(array[min]>array[i]) {// checking if the first element is bigger than any other element in the array.
+             min = i; // if yes, assigning the index of that element to min
+        }
+    }
+      return min; // returning min 
+    }
+
+//=============================================================================================================================================    
+// 2.B  
+  public static void selectionSort(int[] array){ 
+     int temp = 0; // int variable to store the variable for swapping
+     int x = 0 ; // just for my reference to check the changing values for better understanding
+     int minNum = 0; // index of the minimum value in the array
+     for(int i= 0; i< array.length; i++){ // iterating through the loop
+        minNum = findMin(array, i, array.length); // calling the function findMin and storing the value in minNum
+        if(minNum != i){ // if the new index found is different than the current one than swap the values
+            temp = array[i]; // general swapping
+            array[i] = array[minNum]; 
+            //x= array[i] = array[minNum];  
+            array[minNum] = temp;
+        }// if
+        //System.out.println("After " + (i+1) +" Iterations -"); // printing out the values
+        //output(array);
+        } // for
+    }// selectionSort
+
+//=============================================================================================================================================    
+// 3A 
+public static void mergeSort(int[] a){ // driver method used to call the private method
+    int[] temp = new int[a.length]; 
+    mergeSort(a,0,a.length,temp); 
+    }
+
+//=============================================================================================================================================    
+// 3B
+ private static void mergeSort(int[] a, int start, int end, int[] temp){
+    int mid; // to store the middle value of the array to break it into two halves
+    if(2 < end - start){ // if there are more than two elements in the array
+        mid = start + (end - start)/2; // calculating the middle value of the array 
+        
+        mergeSort(a,start,mid,temp); // calling mergeSort for left half
+        
+        mergeSort(a,mid,end,temp); // calling mergeSort for right half
+
+        merge(a,start,mid,end,temp); // merging the two halves
+    }//if
+    else{ // if there are less than two elements
+      if(a[start]>a[end-1]) // comparing the two elements
+         swap(a,start,end-1); // calling the swap function
+    }//else
+    
+}// private mergeSort
+//=============================================================================================================================================    
+//3C
+ private static void merge(int[] a, int start, int mid, int end, int[] temp){
+     int currL = start; // index of current item in left half
+     int currR = mid; // index of current item in right half
+     int currT; // index in temp array position
+     for( currT = start; currT< end; currT++){ // iterating through the loop
+         if(currL < mid && (currR >= end || a[currL] < a[currR]) ) {
+             // comparing the elements of the both halves, uf we're out of elements in right half
+             temp[currT] = a[currL]; // assigning the values to temp array
+             currL++; // incrementing the position in left array
+            }// if
+         else{
+             temp[currT] = a[currR]; // assigning the values to temp array
+             currR++; // incrementing the position in right array
+            }//else
+    }// for
+        
+    for(currT = start; currT< end; currT++){
+        a[currT] = temp[currT]; // copying the temp array elements in the new array
+    }//for
+ }// merge
+
+//=============================================================================================================================================    
+//4A
+ public static void quickSort(int[] a){
+    quickSort(a,0,a.length); // calling the private quicksort method
+ }
+
+//=============================================================================================================================================    
+//4B 
+private static void quickSort(int[] a, int start, int end){
+    int pivot; // to store the pivot point
+     if( 2 < end-start){
+        medianOfThree(a,start,end);
+        pivot = partition(a,start,end);
+        quickSort(a,start,pivot-1);
+        quickSort(a,pivot+1,end);
+        }
+     else{ // if there are less than two elements
+         if(a[start]>a[end-1]) // comparing the two elements
+            swap(a,start,end-1); // calling the swap function
+    } //else     
+          
+ } // private quickSort
+
+//=============================================================================================================================================    
+//4C 
+private static void medianOfThree(int[] a,int start, int end){
+     int mid = start+(end-start)/2; // calculating the mid point
+     int pivot = 0;
+     if(a[mid]>=a[start] && a[start]>=a[end-1] || a[end-1]>=a[start]&& a[start]>=a[mid]){
+         pivot = a[start];
+        }
+     if(a[start]>=a[mid] && a[mid]>=a[end-1] || a[end-1]>=a[mid]&& a[mid]>=a[start]){
+         pivot = a[mid];
+         swap(a,start,mid);
+        }
+     if(a[start]>=a[end-1] && a[end-1]>=a[mid] || a[mid]>=a[end-1]&& a[end-1]>=a[start]){
+         pivot = a[end-1]; 
+         swap(a,start,end-1);
+        }
+     /*for(int i=0; i<a.length; i++){   
+        System.out.println(a[i]);
+     }*/
+    }
+
+//=============================================================================================================================================    
+//4D
+private static int partition(int[]a, int start, int end){
+  int bigStart = start+1;
+  int pivot = a[start];
+  for(int curr = bigStart+1; curr< end ; curr++){
+      if(a[curr] < pivot){
+         swap(a,bigStart,curr);
+         bigStart++;
+        } 
+    }
+  swap(a,bigStart-1,start);
+  return bigStart-1;  
+}
+//=============================================================================================================================================    
+// 5
+ public static void hybridQuickSort ( int[] a){
+    
+     hybridQuickSort(a,0,a.length);
+   
+    }
+//=============================================================================================================================================    
+ private static void hybridQuickSort(int[] a,int start,int end){
+   int pivot; // to store the pivot point
+   if((end-start-1)<BREAKPOINT)
+        insertionSort(a,start,end-1);
+   else{
+       medianOfThree(a,start,end);
+       pivot = partition(a,start,end);
+       hybridQuickSort(a,start,pivot-1);
+       hybridQuickSort(a,pivot+1,end);
+     }//else
+ }//hybridQuickSort
+//=============================================================================================================================================    
+//=============================================================================================================================================    
+   
+//=============================================================================================================================================    
+
+ public static void swap(int[] a, int i, int j){// swap function
+     int temp = a[i];
+     a[i]=a[j];
+     a[j]= temp;
+    }//swap
+
+//=============================================================================================================================================    
+//6.    
+    
+ public static boolean isSorted(int[] a){
+    boolean flag = false;
+    int j;
+    for(int i=0; i<a.length-1; i++){
+        j = i+1;
+        if(a[i]<a[j]){
+          flag = true;  
+        }
+        else{
+            flag = false;
+            break;
+        }
+    }
+    return flag;
+    }
+
+//=============================================================================================================================================    
+// 7.
+public static void fillArray(int[] a){
+    for(int i=0; i<a.length; i++){
+        a[i] = i;
+    }
+}
+
+//=============================================================================================================================================    
+// 8.
+public static void randomizeArray(int[] a, int n){
+    double i,j;
+    while(n>0){
+        i =  Math.random() * n ;
+        j =  Math.random() * n ;
+        //System.out.println("i position - " + (int)i + "\n" + "j positon - " + (int)j); 
+        swap(a,(int)i,(int)j);// 
+        n--;
+    }//while
+}
+
+//=============================================================================================================================================    
+public static void testing(){
+    hybridSortBreakPoint();
+    int[] a = new int[10];
+    fillArray(a);
+    System.out.println("Basic Array: Made by fillArray Method");
+    output(a);
+    randomizeArray(a,a.length);
+    System.out.println("Randomized Array: Made by randomizeArray Method");
+    //1
+    insertionSort(a);
+    System.out.println("Insertion Sorted Array: ");
+    output(a);
+    if(isSorted(a))
+        System.out.println("Congrats!! your insertion sort worked");
+    else
+        System.out.println("Error in insertion sort!Error in insertion sort!Error in insertion sort! ");
+    // randomize the array after each sorting
+   //======================================================================= 
+      
+    randomizeArray(a,a.length);
+    System.out.println("Randomized Array: Made by randomizeArray Method");
+    output(a);
+    selectionSort(a);
+    System.out.println("selection Sorted Array: ");
+    output(a);
+    if(isSorted(a))
+        System.out.println("Congrats!! your selection sort worked.Let's check the other ones");
+    else
+        System.out.println("Error in insertion sort!Error in insertion sort!Error in insertion sort! ");
+    // randomize the array after each sorting
+    /* to check medianOfThreeFunction
+     int[] b = {1,2,2};
+    medianOfThree(b,0,b.length);
+    */
+   /*output(a);
+    quickSort(a);
+    output(a);
+    */
+   /*output(a);
+    hybridQuickSort(a);
+    output(a);
+    */
+    //System.out.println(partition(a,0,a.length));
+    //insertionSort(a);
+    //System.out.println(findMin(a,1, 3));
+    /*fillArray(a);
+    if(isSorted(a)==false)
+        System.out.println("unSorted");
+    else
+        System.out.println("Sorted");
+        */
+    //System.out.println("UNSorted");
+    //output(a);
+    //System.out.println("Sorted");
+    //selectionSort(a);
+    //isSorted(a);
+    
+    /*if(isSorted(a)==false)
+        System.out.println("unSorted");
+    else
+        System.out.println("Sorted");
+        */
+    //mergeSort(a);
+    //output(a); 
+}
+//=============================================================================================================================================    
+ public static void hybridSortBreakPoint(){
+     
+    }
+
+//=============================================================================================================================================    
+    
+}// MainClass
